@@ -10,6 +10,12 @@ html,
 body {
   font-family: "Source Sans Pro", -apple-system, system-ui, BlinkMacSystemFont,
     "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  height: auto;
+  width: auto;
 }
 
 .site-footer {
@@ -150,6 +156,40 @@ body {
 
 #greenBtn {
   background: #87ca8a;
+}
+
+#content {
+  margin: 5px 3px 5px 3px;
+}
+
+.book_item {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  padding-top: 40px;
+}
+
+.book_item p {
+  margin: 5px 5px 5px 5px;
+}
+
+.book_item.read {
+  background-color: lightcoral;
+}
+
+.book_item.unread {
+  background-color: #87ca8a;
+}
+
+.book_img {
+  margin: 20px;
+  padding: 10px;
+  width: 150px;
+  height: 100;
+  object-fit: cover;
+  display: block;
 }
 
 @media screen and (min-width: 992px) {
