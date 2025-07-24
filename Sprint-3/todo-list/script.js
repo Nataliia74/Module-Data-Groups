@@ -12,29 +12,32 @@ function populateTodoList(todos) {
     let itemList = document.createElement("li");
     itemList.classList.add("item-todo-list");
 
-    itemList.innerHTML = `${item.task} - ${item.completed ? "true" : "false"}`;
-
-    list.appendChild(itemList);
+    itemList.innerText = `${item.task} ${item.date ? `(${item.date})` : ""}`;
 
     let completedButton = document.createElement("button");
-    completedButton.classList.add("completed-button");
     completedButton.innerText = "completed";
+    completedButton.addEventListener("click", () => {
+      itemList.classList.toggle("done");
+    });
 
     let deleteButton = document.createElement("button");
     deleteButton.classList.add("delete-button");
     deleteButton.innerText = "delete";
+    deleteButton.addEventListener("click", () => {
+      list.removeChild(itemList);
+    });
 
     itemList.appendChild(completedButton);
     itemList.appendChild(deleteButton);
+    list.appendChild(itemList);
   }
-
   // Write your code to create todo list elements with completed and delete buttons here, all todos should display inside the "todo-list" element.
 }
 
 // These are the same todos that currently display in the HTML
 // You will want to remove the ones in the current HTML after you have created them using JavaScript
 let todos = [
-  { task: "Wash the dishes", completed: false },
+  { task: "Wash the dishes", completed: true },
   { task: "Do the shopping", completed: false },
 ];
 
@@ -46,14 +49,17 @@ function addNewTodo(event) {
   event.preventDefault();
   // Write your code here... and remember to reset the input field to be blank after creating a todo!
   let input = document.querySelector('input[type = "text"]');
+  let dateInput = document.getElementById("date");
+
   console.log(input.value);
   if (input.value === "") {
     window.alert("Please provide task");
     return;
   }
   let taskTodo = input.value;
+  let dateTodo = dateInput.value;
 
-  let item = { task: taskTodo, completed: false };
+  let item = { task: taskTodo, date: dateTodo, completed: true };
 
   todos.push(item);
   populateTodoList([item]);
@@ -63,7 +69,38 @@ let addTodoButton = document.querySelector('button[type = "submit"]');
 console.log(addTodoButton);
 addTodoButton.addEventListener("click", addNewTodo);
 
+let removeTodoButton = document.querySelector("#remove-all-completed");
+console.log(removeTodoButton);
+let list = document.getElementById("todo-list");
+console.log(list);
+let itemList = document.getElementsByClassName("item-todo-list");
+console.log(itemList);
+
 // Advanced challenge: Write a fucntion that checks the todos in the todo list and deletes the completed ones (we can check which ones are completed by seeing if they have the line-through styling applied or not).
 function deleteAllCompletedTodos() {
-  // Write your code here...
+  const itemsArray = Array.from(itemList);
+  itemsArray.forEach((item) => {
+    if (item.classList.contains("done")) {
+      list.removeChild(item);
+    }
+  });
 }
+
+removeTodoButton.addEventListener("click", deleteAllCompletedTodos);
+// Write your code here..
+
+const dateInput = document.createElement("input");
+dateInput.id = "date";
+dateInput.type = "date";
+dateInput.name = "Deadline";
+
+const inputDiv = document.getElementById("inputs");
+inputDiv.appendChild(dateInput);
+// ### Set deadlines for ToDos
+
+// We want users to be able to set, and see, deadlines for their ToDos.
+
+// When creating ToDos we want the user to be able to use a datepicker
+// input so they can see when they need to complete the ToDo. The date
+// can be added to the ToDo in the list. If there is no date set when the
+// ToDo is created then this can be skipped.
