@@ -47,7 +47,7 @@ buttons.append(
 );
 
 let startIndex = 0;
-let timer = 0;
+let timer = null;
 
 forwardButton.addEventListener("click", () => {
   startIndex = (startIndex + 1) % images.length;
@@ -68,18 +68,31 @@ function slideShow() {
 }
 
 autoForwardButton.addEventListener("click", () => {
-  clearInterval(timer);
+  if (timer) {
+    clearInterval(timer);
+  }
   slideShow();
+
+  autoBackwardButton.disabled = true;
+  autoForwardButton.disabled = true;
 });
 
 autoBackwardButton.addEventListener("click", () => {
-  clearInterval(timer);
+  if (timer) {
+    clearInterval(timer);
+  }
   timer = setInterval(() => {
     startIndex = (startIndex - 1 + images.length) % images.length;
     slide.src = images[startIndex];
   }, 5000);
+
+  autoBackwardButton.disabled = true;
+  autoForwardButton.disabled = true;
 });
 
 stopButton.addEventListener("click", () => {
   clearInterval(timer);
+
+  autoBackwardButton.disabled = false;
+  autoForwardButton.disabled = false;
 });
