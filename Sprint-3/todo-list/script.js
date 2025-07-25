@@ -4,6 +4,7 @@ let dateInput = document.createElement("input");
 dateInput.id = "date";
 dateInput.type = "date";
 dateInput.name = "deadline";
+dateInput.placeholder = "date";
 
 window.addEventListener("DOMContentLoaded", () => {
   let input = document.querySelector('input[type = "text"]');
@@ -43,13 +44,26 @@ function populateTodoList(todos) {
     });
 
     if (item.deadline) {
-      const [year, month, day] = item.deadline.split("-");
-      const formattedDate = `${day} - ${month} - ${year}`;
+      // const [year, month, day] = item.deadline.split("-");
+      // const formattedDate = `${day} - ${month} - ${year}`;
+
+      const currentDay = new Date();
+      const deadlineDate = new Date(item.deadline);
+      const leftDaysInSec = deadlineDate - currentDay;
+      const leftDaysInDays = Math.round(leftDaysInSec / (1000 * 60 * 60 * 24));
+
+      if (leftDaysInDays > 0) {
+        message = `    Due in ${leftDaysInDays}   days`;
+      } else if (leftDaysInDays === 0) {
+        message = `    Due today`;
+      } else {
+        message = ` Overdue by ${Math.abs(leftDaysInDays)} days`;
+      }
+
       let deadlineSpan = document.createElement("span");
-      deadlineSpan.innerText = `    ${formattedDate}`;
+      deadlineSpan.innerText = `    ${message}`;
       itemList.appendChild(deadlineSpan);
     }
-
     itemList.appendChild(completedButton);
     itemList.appendChild(deleteButton);
     list.appendChild(itemList);
@@ -72,6 +86,8 @@ function addNewTodo(event) {
   event.preventDefault();
   // Write your code here... and remember to reset the input field to be blank after creating a todo!
   let input = document.querySelector('input[type = "text"]');
+  input.name = "task";
+  input.id = "task";
 
   if (input.value === "") {
     window.alert("Please provide task");
