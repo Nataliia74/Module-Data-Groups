@@ -1,3 +1,11 @@
 .done {
   text-decoration: line-through;
 }
+
+.item-todo-list {
+  margin-bottom: 5px;
+}
+
+button {
+  margin: 2px;
+}

@@ -1,3 +1,15 @@
+//const { createElement } = require("react");
+
+let dateInput = document.createElement("input");
+dateInput.id = "date";
+dateInput.type = "date";
+dateInput.name = "deadline";
+
+window.addEventListener("DOMContentLoaded", () => {
+  let input = document.querySelector('input[type = "text"]');
+  input.insertAdjacentElement("afterend", dateInput);
+});
+
 function populateTodoList(todos) {
   let list = document.getElementById("todo-list");
   console.log(list);
@@ -11,8 +23,11 @@ function populateTodoList(todos) {
   for (let item of todos) {
     let itemList = document.createElement("li");
     itemList.classList.add("item-todo-list");
+    if (item.completed) {
+      itemList.classList.add("done");
+    }
 
-    itemList.innerText = `${item.task} ${item.date ? `(${item.date})` : ""}`;
+    itemList.innerText = item.task;
 
     let completedButton = document.createElement("button");
     completedButton.innerText = "completed";
@@ -26,6 +41,14 @@ function populateTodoList(todos) {
     deleteButton.addEventListener("click", () => {
       list.removeChild(itemList);
     });
+
+    if (item.deadline) {
+      const [year, month, day] = item.deadline.split("-");
+      const formattedDate = `${day} - ${month} - ${year}`;
+      let deadlineSpan = document.createElement("span");
+      deadlineSpan.innerText = `    ${formattedDate}`;
+      itemList.appendChild(deadlineSpan);
+    }
 
     itemList.appendChild(completedButton);
     itemList.appendChild(deleteButton);
@@ -49,9 +72,7 @@ function addNewTodo(event) {
   event.preventDefault();
   // Write your code here... and remember to reset the input field to be blank after creating a todo!
   let input = document.querySelector('input[type = "text"]');
-  let dateInput = document.getElementById("date");
 
-  console.log(input.value);
   if (input.value === "") {
     window.alert("Please provide task");
     return;
@@ -59,11 +80,12 @@ function addNewTodo(event) {
   let taskTodo = input.value;
   let dateTodo = dateInput.value;
 
-  let item = { task: taskTodo, date: dateTodo, completed: true };
+  let item = { task: taskTodo, completed: false, deadline: dateTodo || null };
 
   todos.push(item);
   populateTodoList([item]);
   input.value = "";
+  dateInput.value = "";
 }
 let addTodoButton = document.querySelector('button[type = "submit"]');
 console.log(addTodoButton);
@@ -89,13 +111,6 @@ function deleteAllCompletedTodos() {
 removeTodoButton.addEventListener("click", deleteAllCompletedTodos);
 // Write your code here..
 
-const dateInput = document.createElement("input");
-dateInput.id = "date";
-dateInput.type = "date";
-dateInput.name = "Deadline";
-
-const inputDiv = document.getElementById("inputs");
-inputDiv.appendChild(dateInput);
 // ### Set deadlines for ToDos
 
 // We want users to be able to set, and see, deadlines for their ToDos.
