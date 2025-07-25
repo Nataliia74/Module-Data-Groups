@@ -18,6 +18,16 @@ const slide = document.getElementById("carousel-img");
 const forwardButton = document.getElementById("forward-btn");
 const backwardButton = document.getElementById("backward-btn");
 
+const screen = document.createElement("div");
+screen.id = "screen";
+document.body.appendChild(screen);
+screen.appendChild(slide);
+
+const buttons = document.createElement("div");
+buttons.id = "buttons";
+document.body.appendChild(buttons);
+buttons.append(forwardButton, backwardButton);
+
 let startIndex = 0;
 
 forwardButton.addEventListener("click", () => {
